@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>css assassin</title>
+    <link rel="stylesheet" href="css/base.css">
+</head>
+<body>
+<div class="header"><img class="logo" src="mlogo.png" alt=""><span class="des">CSS Assassin - CSS规范工具</span></div>
+<div id="step1" class="step">
+    <div class="in">
+        <div class="setting mp-tab-group" param='{"e":"click"}'>
+            <h3 class="mp-tab-title cur"><span>格式设置</span></h3>
+            <h3 class="mp-tab-title">属性顺序设置</h3>
+            <button id="save" class="btn btn-save" title="我们使用本地存储方式保存">保存设置</button>
+            <button id="clear" class="btn btn-clear" title="我们会删除保存的配置，还原到您第一次访问的样子">删除设置</button>
+            <div class="mp-tab-con" style="display: block;">
+                <textarea id="css-format">
+/*[note]*/
+selector,
+selector { property: value; property: value, value; }
+@media {
+  selector2 { property: value; }
+}
+                </textarea><div class="wrap-pre mp-radio-group">
+                    <a class="mp-item cur" val="0" href="javascript:;">推荐格式<span class="ico-down"><span class="ico-down-in"></span></span></a>
+                    <a class="mp-item" val="1" href="javascript:;">压缩格式<span class="ico-down"><span class="ico-down-in"></span></span></a>
+                    <a class="mp-item" val="-1" href="javascript:;">自定义<span class="ico-down"><span class="ico-down-in"></span></span></a>
+                </div>
+                <h4>其他选项</h4>
+                <div class="wrap-op">
+                    <div>
+                        <label for="op-isSort"><input id="op-isSort" type="checkbox" value="1" checked>属性排序</label>
+                        <!--<label for="op-u"><input id="op-u" type="checkbox" value="1">合并属性</label>-->
+                    </div>
+                    <div>
+                        <label for="op-colorHex"><input id="op-colorHex" type="checkbox" value="1" checked>采用Hex Colors(16进制颜色)</label>
+                        <!--<label for="op-colorZip"><input id="op-colorZip" type="checkbox" value="1">缩写颜色</label>-->
+                    </div>
+                    <div>
+                        <label for="op-isDelZBehind"><input id="op-isDelZBehind" type="checkbox" value="1" checked>0后面单位删除</label>
+                        <label for="op-isDelZ"><input id="op-isDelZ" type="checkbox" value="1" checked>删除小数点前面的0</label>
+                    </div>
+                    <div>
+                        <label for="op-isDelLastSem"><input id="op-isDelLastSem" type="checkbox" value="1">移除最后一个分号</label>
+                    </div>
+                    <!--<div>
+                        <label for="op-addNote"><input id="op-addNote" type="checkbox" value="1">加注释</label>
+                    </div>-->
+                </div>
+            </div>
+            <!-- end item -->
+            <div class="mp-tab-con dn">
+                <textarea id="css-sort">
+position,top,right,bottom,left,z-index,
+
+float,clear,display,overflow,overflow-x,overflow-y,visibility,
+
+width,min-width,max-width,height,min-height,max-width,
+
+padding,padding-top,padding-right,padding-bottom,padding-left,
+
+border,border-top,border-right,border-bottom,border-left,border-radius,
+
+border-width,border-top-width,border-right-width,
+border-bottom-width,border-left-width,
+
+border-style,border-top-style,border-right-style,
+border-bottom-style,border-left-style,
+
+border-color,border-top-color,border-right-color,
+border-bottom-color,border-left-color,
+
+border-radius,border-top-left-radius,border-top-right-radius,
+border-bottom-left-radius,border-bottom-right-radius,
+
+border-image,border-image-source,border-image-slice,
+border-image-width,border-image-outset,border-image-repeat,
+
+box-shadow,
+
+margin,margin-top,margin-right,margin-bottom,margin-left,
+
+background,background-color,background-image,background-position,background-repeat,
+background-attachment,background-origin,background-clip,background-size,
+
+content,color,
+
+font,font-style,font-variant,font-weight,font-size,font-family,font-stretch,
+
+line-height,text-align,vertical-align,text-indent,text-justify,
+white-space,word-spacing,letter-spacing,text-overflow,
+
+outline,text-shadow,
+
+cursor,zoom,opacity,behavior
+                </textarea>
+            </div>
+            <!-- end item -->
+        </div>
+        <!-- end setting -->
+        <div class="css">
+            <div class="wrap-txt css-user">
+                <textarea id="css-user" spellcheck="false" cols="30" rows="10">
+
+                </textarea>
+            </div>
+        </div>
+        <!-- css -->
+        <div class="cb"></div>
+        <div class="tac"><a id="run" class="btn btn-default" href="#step2">运行</a></div>
+    </div>
+</div>
+<!-- end step1 -->
+<div id="step2" class="step dn">
+    <div class="in">
+        <textarea id="css-standard" spellcheck="false"></textarea>
+        <div class="msg">
+            <div class="msg-in">
+                <-<-<-CSS-<-<-<-<-<-<-<-
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../../Merainy/jquery1.7.2.js"></script>
+<script type="text/javascript" src="script/cssass.core.js"></script>
+<script type="text/javascript">
+    function mp(){
+        function radio(rdVal,rdGroup){
+            (function(){
+                if(rdGroup.hasClass('wrap-pre')){
+                    switch(rdVal){
+                        case '0':
+                            var str ='/*[note]*/\rselector,\rselector { property: value; property: value, value; }\r@media {\r  selector2 { property: value; }\r}';
+                            document.getElementById('css-format').value = str;
+                            document.getElementById('op-isDelLastSem').checked = false;
+                                return false;
+                            break;
+                        case '1':
+                            var str ='selector,selector{property:value;property:value,value;}@media{selector2{property:value;}}';
+                            document.getElementById('css-format').value = str;
+                            document.getElementById('op-isDelLastSem').checked = true;
+                            return false;
+                            break;
+                    }
+                }
+            })();
+        }
+        return {
+            radio : radio
+        }
+    }
+    $(function(){
+        if(window.localStorage){
+            if(localStorage['format'] != null){
+                document.getElementById('css-format').value = localStorage['format'];
+                document.getElementById('op-isDelLastSem').checked = (localStorage['isDelLastSem'] == 'true' ? true : false);
+                document.getElementById('op-isDelZBehind').checked = (localStorage['isDelZBehind'] == 'true' ? true : false);
+                document.getElementById('op-isDelZ').checked = (localStorage['isDelZ'] == 'true' ? true : false);
+                document.getElementById('op-colorHex').checked = (localStorage['isHex'] == 'true' ? true : false);
+                $('.wrap-pre .mp-item').removeClass('cur').eq(2).addClass('cur');
+            }
+        }else{
+            $('#save,#clear').css({'display' : 'none'});
+        }
+    })
+    $('#css-format').bind('input propertychange',function(){
+        $('.wrap-pre .mp-item').removeClass('cur').eq(2).addClass('cur');
+    });
+</script>
+<script type="text/javascript" src="script/jquery.myplug.js"></script>
+<!--<script type="text/javascript" src="script/cssass.tester.js"></script>-->
+<script type="text/javascript">
+    document.getElementById('clear').onclick = function(){
+        if(window.localStorage){
+            localStorage.clear();
+            location.reload();
+        }
+    }
+    document.getElementById('save').onclick = function(){
+        if(window.localStorage){
+            localStorage['format'] = get.val('css-format');
+            localStorage['sort'] = get.val('css-sort');
+            localStorage['isDelLastSem'] = document.getElementById('op-isDelLastSem').checked;
+            localStorage['isDelZBehind'] = document.getElementById('op-isDelZBehind').checked;
+            localStorage['isDelZ'] = document.getElementById('op-isDelZ').checked;
+            localStorage['isHex'] = document.getElementById('op-colorHex').checked;
+            alert('保存成功');
+        }else{
+            alert('不支持此功能，推荐使用Chrome浏览器');
+        }
+    }
+    document.getElementById('run').onclick = function(){
+        var bTime = new Date();
+        var
+                usercss = get.val('css-user'),
+                sort = get.val('css-sort'),
+                format = (window.localStorage && localStorage['format'] !=null) ? localStorage['format'] : get.val('css-format'),
+                font = get.font(usercss),
+                url = get.url(usercss),
+                content = get.content(usercss),
+                note = get.note(usercss),
+
+                css_marknote = mark.note(usercss),
+                css_markcontent = mark.content(css_marknote),
+                css_markfont = mark.font(css_markcontent),
+                css_markurl = mark.url(css_markfont),
+
+                op = {
+                    //压缩后的样式
+                    strCss : tidy.zip(css_markurl),
+                    //属性排序
+                    arrSort : get.sortArr(sort),
+                    //格式
+                    strformat : format,
+                    //标记的字体
+                    realFont : font,
+                    //标记的链接
+                    realUrl : url,
+                    //标记的content
+                    realContent : content,
+                    //标记的note
+                    realNote : note,
+                    //删除最后的分号
+                    isDelLastSem : document.getElementById('op-isDelLastSem').checked,
+                    //删除0后面的单位
+                    isDelZBehind : document.getElementById('op-isDelZBehind').checked,
+                    //删除小数点前面的0
+                    isDelZ : document.getElementById('op-isDelZ').checked,
+                    //是否使用16进制颜色
+                    isHex : document.getElementById('op-colorHex').checked
+                };
+
+        css_sort = tidy.core(op);
+        document.getElementById('css-standard').value = css_sort;
+        $('#step2').removeClass('dn');
+        (function(){
+            var now = new Date(),
+                    spTime = now.getTime() - bTime.getTime();
+            console.log('\n\r' + spTime + 'ms');
+        })();
+    }
+</script>
+
+</body>
+</html>
